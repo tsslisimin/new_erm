@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coomia.erm.dao.ErmAccountDao">
+
+    <sql id="Base_Column_List">
+ 
+           `name` ,
+           gender ,
+           age ,
+           id_card ,
+           parent_name ,
+           tel_phone ,
+           students_count ,
+           study_place ,
+           school_name ,
+           stuno ,
+           `zone` ,
+           grade ,
+           clazz ,
+           boarding ,
+           address_province ,
+           address_city ,
+           address_area ,
+           address_town ,
+           address_township ,
+           address_group ,
+           is_poor ,
+           archive_name ,
+           archive_account ,
+           archive_idcard ,
+           archive_relation ,
+           support_name ,
+           support_bank_card ,
+           helper_name ,
+           helper_work_place ,
+           helper_position ,
+           helper_tel
+    </sql>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into `tb_erm_account` (<include refid="Base_Column_List"/>)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+
+            (#{item.name},
+            #{item.gender},
+            #{item.age},
+            #{item.idCard},
+            #{item.parentName},
+            #{item.telPhone},
+            #{item.studentsCount},
+            #{item.studyPlace},
+            #{item.schoolName},
+            #{item.stuno},
+            #{item.zone},
+            #{item.grade},
+            #{item.clazz},
+            #{item.boarding},
+            #{item.addressProvince},
+            #{item.addressCity},
+            #{item.addressArea},
+            #{item.addressTown},
+            #{item.addressTownship},
+            #{item.addressGroup},
+            #{item.isPoor},
+            #{item.archiveName},
+            #{item.archiveAccount},
+            #{item.archiveIdcard},
+            #{item.archiveRelation},
+            #{item.supportName},
+            #{item.supportBankCard},
+            #{item.helperName},
+            #{item.helperWorkPlace},
+            #{item.helperPosition},
+            #{item.helperTel})
+        </foreach>
+    </insert>
+
+    <select id="selectByLimit" resultType="com.coomia.erm.entity.ErmAccountEntity">
+        select * from tb_erm_account
+        <if test="school_name != null and school_name != ''">
+            where 1=1
+            and school_name = #{school}
+        </if>
+        limit #{page},#{limit}
+
+    </select>
+
+    <select id="listOutsideCount" resultType="int">
+
+        select count(*) from tb_erm_account
+        <if test="school_name != null and school_name != ''">
+            where 1=1
+            and school_name = #{school}
+        </if>
+    </select>
+</mapper>
